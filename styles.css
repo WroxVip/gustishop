@@ -626,3 +626,27 @@ main {
   pointer-events: auto;
   transform: translateY(0);
 }
+/* === Tombol Menu (Garis 3) === */
+#menuBtn {
+  color: #ffffff; /* warna putih biar kelihatan */
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 8px;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+
+#menuBtn:hover {
+  background: rgba(255, 255, 255, 0.08); /* efek hover halus */
+  color: #ff44ff; /* glow ungu biar keren */
+  box-shadow: 0 0 8px rgba(255, 68, 255, 0.5);
+}
+
+/* Pastikan tombol sejajar dengan ikon search */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* jarak antar ikon */
+}
