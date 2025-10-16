@@ -228,3 +228,26 @@ function setupSearch(){
 }
 
 document.addEventListener('DOMContentLoaded', setupSearch);
+// === MENU POPUP ===
+function setupMenu() {
+  const btn = document.getElementById("menuBtn");
+  const popup = document.getElementById("menuPopup");
+
+  if (!btn || !popup) return; // keamanan biar gak error
+
+  btn.addEventListener("click", () => {
+    popup.classList.toggle("show");
+  });
+
+  // Tutup saat klik di luar menu
+  document.addEventListener("click", (e) => {
+    if (!popup.contains(e.target) && !btn.contains(e.target)) {
+      popup.classList.remove("show");
+    }
+  });
+}
+
+// Jalankan menu setelah halaman siap
+document.addEventListener("DOMContentLoaded", () => {
+  setupMenu();
+});
