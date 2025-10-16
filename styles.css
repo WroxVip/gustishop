@@ -17,7 +17,7 @@
   --cols-mobile:2;          /* grid kolom hp */
   --cols-tablet:2;          /* grid kolom tablet */
   --cols-desktop:3;         /* grid kolom desktop */
-  --gap:12px;               /* jarak antar kartu */
+  --gap:10px;               /* jarak antar kartu */
   --card-pad:12px;          /* padding isi kartu */
   --radius:16px;            /* radius kartu */
   --ratio:4/3;              /* rasio gambar (CSS aspect-ratio) */
