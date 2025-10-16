@@ -189,8 +189,8 @@ body{
 /* ===== Grid Produk Responsif ===== */
 .grid {
   display: grid;
-  gap: 17px;
-  margin-top: 14px;
+  gap: 15px;
+  margin-top: 15px;
   grid-template-columns: repeat(2, 1fr); /* 2 kolom default (HP) */
 }
 
