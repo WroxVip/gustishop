@@ -1,0 +1,578 @@
+/* ================== ROOT VARIABLES (diset dari app.js) ==================
+   Semua --var di bawah ini diisi oleh applyThemeAndLayout(), jadi edit
+   angka/warna di config.js → otomatis mengubah tampilan.
+========================================================================= */
+:root{
+  --bg:#0c0f13;             /* background utama */
+  --bg-soft:#10151c;        /* background lembut/topbar */
+  --card:#2b2b2b;           /* latar kartu produk */
+  --card-hover:#1b2430;     /* latar kartu saat hover */
+  --text:#e6e8eb;           /* teks utama */
+  --muted:#9aa3ad;          /* teks sekunder */
+  --line:#232c37;           /* border tipis */
+  --accent:#22c55e;         /* tombol hijau */
+  --accent-2:#ef4444;       /* pita merah BEST PRICE */
+  --accentText:#0a0f14;     /* teks di tombol */
+
+  --cols-mobile:2;          /* grid kolom hp */
+  --cols-tablet:2;          /* grid kolom tablet */
+  --cols-desktop:3;         /* grid kolom desktop */
+  --gap:12px;               /* jarak antar kartu */
+  --card-pad:12px;          /* padding isi kartu */
+  --radius:16px;            /* radius kartu */
+  --ratio:4/3;              /* rasio gambar (CSS aspect-ratio) */
+
+  --title-size:15px;        /* font judul */
+  --price-size:18px;        /* font harga */
+  --compare-size:12px;      /* font harga coret */
+  --badge-size:12px;        /* font badge "Terjual ..." */
+  --ribbon-size:11px;       /* font pita "BEST PRICE" */
+
+  --btn-pady:12px;          /* padding vertikal tombol */
+  --btn-padx:14px;          /* padding horizontal tombol */
+  --btn-radius:12px;        /* radius tombol */
+  --topbar-h: 100px;
+}
+
+/* ====== Reset ringan ====== */
+*{ box-sizing:border-box }
+html,body{ height:100% }
+body{
+  padding-top: var(--topbar-h);
+  margin:0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+  color:var(--text);
+  background:#000000;
+}
+
+/* ====== Overlay background "asap" (boleh dimatikan kalau mau lebih terang) ====== */
+.bg-smoke{
+  position:fixed; inset:0;
+  background:
+    radial-gradient(900px 500px at 25% 10%, #0d1524 0, transparent 60%),
+    radial-gradient(900px 600px at 85% 30%, #0c131f 0, transparent 55%);
+  pointer-events:none;
+  filter: blur(1px) saturate(105%);
+  /* opacity:.22;  ← aktifkan ini untuk mencerahkan keseluruhan tampilan */
+}
+
+/* ===== Topbar fixed di atas ===== */
+.topbar{
+  position: fixed;       /* <- ini kuncinya */
+  top: 0; left: 0; right: 0;
+  z-index: 10;          /* biar di atas elemen lain */
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 14px;    /* boleh sesuaikan */
+  background: rgba(0,0,0,0.5) !important;              /* latar solid */
+  border-bottom: 1px solid var(--line);
+  box-shadow: 0 2px 10px rgba(10,10,10,10);  /* sedikit bayangan */
+  backdrop-filter: blur(7px) brightness(1.1) saturate(200%) !important;             /* efek kaca (optional) */
+}
+.topbar .brand {
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  font-family: "Poppins", sans-serif;
+  font-size: 22px;
+  
+  /* 🌈 Gradasi warna dinamis */
+  background: linear-gradient(270deg, #ff4ecd, #8b5cf6, #ff4ecd);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  /* ✨ Glow lembut */
+  text-shadow: 0 0 8px rgba(255, 78, 205, 0.5),
+               0 0 16px rgba(139, 92, 246, 0.3);
+
+  /* ⚙️ Animasi gerakan gradasi */
+  animation: gradientMove 3s ease infinite;
+  transition: all 0.3s ease;
+}
+
+/* 🌀 Animasi gradient bergerak */
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* 💫 Efek glow ekstra saat hover */
+.topbar .brand:hover {
+  text-shadow: 0 0 12px rgba(255, 78, 205, 0.8),
+               0 0 24px rgba(139, 92, 246, 0.6);
+  transform: scale(1.03);
+}
+.topbar .actions{ display:flex; gap:8px }
+/* === Tombol & Input Pencarian === */
+#searchBtn {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 8px;
+  display: grid;
+  place-items: center;
+  color: white;
+  transition: background 0.3s ease;
+}
+
+#searchBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Input pencarian */
+#searchInput {
+  display: none;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  color: white;
+  font-size: 14px;
+  padding: 6px 12px;
+  margin-left: 8px;
+  width: 140px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+/* Saat muncul (klik ikon) */
+#searchInput.show {
+  display: inline-block;
+}
+
+.topbar .icon{
+  display:grid; place-items:center; width:36px; height:36px;
+  border-radius:12px; background: #000000; border:1px solid var(--line);
+}
+/*untuk atur tollbar jarak dll*/
+.container{
+  width: min(1100px, 92vw);
+  margin: 0 auto;
+  padding: 12px 0 1px;
+  margin-top: 70px; /* bisa kamu atur 50–65px sesuai tinggi topbar */
+}
+
+/* ====== Profil ====== */
+.profile{ display:grid; place-items:center; gap:20px; padding:22px 0 10px }
+.avatar {
+  width: 96px;
+  height: 96px;
+  border-radius: 9999px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  border: 2px solid #ffffff;                      /* 🔹 Warna border putih */
+  background: var(--card);
+  box-shadow: 0 0 12px #ffffff, 0 0 24px #ffffff; /* 🔹 Glow putih */
+  animation: glowPulse 2.5s ease-in-out infinite; /* 🔹 Efek berdenyut halus */
+}
+
+@keyframes glowPulse {
+  0% {
+    box-shadow: 0 0 6px #ffffff, 0 0 12px #ffffff;
+  }
+  50% {
+    box-shadow: 0 0 16px #ffffff, 0 0 32px #ffffff;
+  }
+  100% {
+    box-shadow: 0 0 6px #ffffff, 0 0 12px #ffffff;
+  }
+}
+.avatar img{ width:100%; height:100%; object-fit:cover; display:block }
+.avatar span{
+  width:100%; height:100%; display:none; place-items:center;
+  background:#06b6d4; color:#001015; font-weight:800; font-size:28px;
+}
+.username{ font-weight:800; font-size:18px }
+.subtitle{ color:var(--muted); letter-spacing:.3px }
+
+/* ====== Grid Produk ====== */
+/* ===== Grid Produk Responsif ===== */
+.grid {
+  display: grid;
+  gap: 20px;
+  margin-top: 14px;
+  grid-template-columns: repeat(2, 1fr); /* 2 kolom default (HP) */
+}
+
+@media (min-width: 640px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr); /* 3 kolom di tablet */
+  }
+}
+
+@media (min-width: 992px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr); /* 4 kolom di desktop */
+  }
+}
+
+/* ====== Kartu Produk ====== */
+/* === CARD DARK GLASS ELEGAN (BENING DI ATAS BACKGROUND HITAM) === */
+.card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: rgba(40, 40, 40, 0.25) !important; /* gelap transparan */
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(5px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  transition: all 0.25s ease-in-out;
+}
+
+.card:hover {
+  background: rgba(80, 80, 80, 0.35) !important;
+  transform: translateY(-3px) scale(1.02);
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.05),
+    rgba(255, 255, 255, 0.02)
+  );
+  z-index: 0;
+}
+
+/* Tekan efek kaca di HP agar performa tetap halus */
+@supports not ((backdrop-filter: blur(10px))) {
+  .card {
+    background: rgba(40, 40, 40, 0.85);
+  }
+}
+
+.card .img-link{ display:block; position:relative }
+.card-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+  transform: scale(1);   /* perbesar gambar 10% */
+  transition: transform 0.3s ease;  /* biar halus */
+}
+
+.ribbon{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 5;
+  padding: 4px 10px;                    /* lebih kecil biar gak panjang */
+  border-radius: 8px;                   /* sudut agak bulat */
+  font-weight: 700;
+  font-size: 12px;                      /* ukuran huruf kecil */
+  letter-spacing: 0.5px;                /* jarak huruf */
+  color: #fff;
+  background: #660000); /* gradasi merah cantik */
+  box-shadow: 0 3px 8px rgba(0,0,0,.25);
+  transform: rotate (1deg);             /* sedikit miring, tidak ekstrem */
+  transform-origin: none;          /* rotasi dari pojok kanan atas */
+  pointer-events: none;                 /* tidak ganggu klik kartu */
+  width: auto;                          /* biar lebar menyesuaikan isi */
+  display: inline-block;                /* biar ukuran pas teksnya */
+}
+/* Pastikan seluruh kartu ditata vertikal: gambar -> teks -> tombol */
+.card {
+  display: flex;
+  flex-direction: column;
+}
+/* === Kontainer isi kartu produk === */
+/* === Kontainer isi kartu produk === */
+.card-body {
+  position: relative;
+  padding: 18px 16px;
+  min-height: 160px; /* biar cukup ruang teks */
+  flex: 5; /* KUNCI: dorong tombol ke bawah */
+}
+
+/* === Badge "Terjual" / "Best Seller" / dll === */
+.sold-badge {
+  position: absolute;
+  top: 0px;               /* geser vertikal */
+  left: 0px;              /* ubah ke right:12px; buat pojok kanan */
+  padding: 6px 14px;
+  border-radius: 0px;
+  font-weight: 600;
+  font-size: 9px;
+  color: #00ff99;
+  background: rgba(0, 255, 128, 0.15);
+  backdrop-filter: blur(10px) saturate(180%);
+  border: 1px solid rgba(0,255,128,0.25);
+  box-shadow: 0 0 10px rgba(0,255,128,0.15);
+  transition: all 0.3s ease;
+}
+
+/* === Judul Produk === */
+.title {
+  position: absolute;      /* bebas digeser */
+  top: 15px;               /* ubah buat geser ke bawah/atas */
+  left: 10px;              /* ubah buat geser kanan/kiri */
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.3px;
+}
+
+/* === Harga Utama === */
+.price {
+  position: absolute;
+  top: 69px;              /* geser posisi harga */
+  left: 10px;
+  font-size: 20px;
+  font-weight: 800;
+  color: #00ff88;
+}
+
+/* === Harga Coret (Harga Asli) === */
+.compare {
+  position: absolute;
+  top: 92px;              /* jarak harga coret dari atas */
+  left: 10px;
+  color: rgba(255,255,255,0.5);
+  text-decoration: line-through;
+  font-size: 13px;
+}
+
+/* === Tombol Beli Sekarang - Efek Kilau Elegan === */
+.buy {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-weight: 600;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+  background: linear-gradient(90deg, #8b5cf6, #ff4ecd);
+  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+/* ✨ Efek kilau berjalan diagonal */
+.buy::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0) 40%,
+    rgba(255, 255, 255, 0.5) 50%,
+    rgba(255, 255, 255, 0) 60%
+  );
+  transform: translateX(-100%) rotate(25deg);
+  animation: shineMove 2.5s linear infinite;
+}
+
+/* 🔁 Animasi sinar diagonal */
+@keyframes shineMove {
+  0% { transform: translateX(-100%) rotate(0deg); }
+  100% { transform: translateX(100%) rotate(0deg); }
+}
+
+/* 💫 Glow saat hover */
+.buy:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 30px rgba(255, 78, 205, 0.5);
+}
+
+/* ====== Footer ====== */
+footer{ text-align:center; color:var(--muted); font-size:12px; padding:26px 0 }
+
+/* ====== Tombol WhatsApp mengambang ====== */
+.wa {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: rgba(37, 211, 102, 0.50); /* lebih tebal, hampir solid */
+  backdrop-filter: blur(8px) saturate(160%);
+  -webkit-backdrop-filter: blur(8px) saturate(160%);
+  color: white;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.25s ease;
+  z-index: 100;
+}
+
+.wa:hover {
+  background: rgba(37, 211, 102, 1); /* jadi full hijau waktu dihover */
+  transform: scale(1.1);
+}
+/* === OVERRIDE AVATAR BORDER & GLOW (paling bawah!) === */
+#avatar {
+  border: 1px solid #ffffff !important;           /* border putih */
+  box-shadow:
+    0 0 0 2px #ffffff,                            /* ring putih tipis */
+    0 0 12px #ffffff,                             /* glow lembut */
+    0 0 24px #ffffff;                             /* glow luar */
+  animation: glowPulse 2.5s ease-in-out infinite; /* efek berdenyut halus */
+}
+
+/* Kalau ada pseudo-element lama yang bikin ring biru, matikan saja */
+#avatar::before,
+#avatar::after {
+  content: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* Animasi glow putih */
+@keyframes glowPulse {
+  0%   { box-shadow: 0 0 0 2px #ffffff, 0 0 12px #ffffff, 0 0 24px #ffffff; }
+  50%  { box-shadow: 0 0 0 2px #ffffff, 0 0 16px #ffffff, 0 0 32px #ffffff; }
+  100% { box-shadow: 0 0 0 2px #ffffff, 0 0 12px #ffffff, 0 0 24px #ffffff; }
+}
+
+.verified-icon {
+  width: 18px;
+  height: 18px;
+  margin-left: 1px;
+  vertical-align: -2px;
+  filter: drop-shadow(0 0 8px #00c8ff);
+}
+
+.topbar{
+  backdrop-filter: blur(10px) saturate(120%);
+  background: color-mix(in oklab, var(--bg-soft) 70%, transparent);
+  border-bottom: 1px solid color-mix(in oklab, var(--line) 60%, transparent);
+}
+
+.sold-badge{
+  background: color-mix(in oklab, #202a36 70%, var(--accent) 30%);
+  color: color-mix(in oklab, var(--muted) 85%, white 15%);
+}
+.ribbon{ background: #660000; } /* pita “BEST PRICE” lebih tegas */
+/* Wadah kartu (wajib relative supaya .ribbon nempel ke kartu) */
+.card{
+  position: relative;                       /* anchor utk pita/ribbon */
+  display: block;
+  background: var(--card);                  /* warna latar kartu */
+  border: 1px solid var(--line);            /* garis tepi kartu */
+  border-radius: var(--radius);             /* lengkungan sudut */
+  overflow: hidden;                         /* potong isi yg keluar */
+  box-shadow: 0 8px 28px #0006;             /* bayangan dasar */
+  transition: 
+    background .15s ease,
+    border-color .15s ease,
+    box-shadow .18s ease,
+    transform .15s ease;                    /* animasi halus */
+}
+.card:hover{
+  transform: translateY(-3px) scale(1.005);
+  border-color: color-mix(in oklab, var(--accent) 35%, var(--line));
+  box-shadow: 0 18px 40px rgba(0,0,0,.35);
+}
+.buy{
+  background: linear-gradient(180deg, color-mix(in oklab, var(--accent) 86%, white 14%), var(--accent));
+  border:1px solid color-mix(in oklab, var(--accent) 60%, black 15%);
+  border-radius: var(--btn-radius);
+  box-shadow: 0 10px 26px color-mix(in oklab, var(--accent) 35%, black 65%);
+}
+.buy:hover{ filter:none; transform: translateY(-1px); }
+.actions .icon{ transition: transform .15s ease, filter .15s; }
+.actions .icon:active, .actions .icon:hover{ transform: scale(1.06); filter: brightness(1.15); }
+.ribbon{ background: linear-gradient(180deg,#8b0000,#b22222); }
+.ribbon{ rotate:0deg; top:5px; }
+.ribbon{
+  position:absolute;
+  right:6px; top:5px;
+  z-index: 5;                   /* di atas gambar */
+  pointer-events: none;         /* biar klik tetap ke kartu */
+  /* ...warna, padding, rotate, dll punyamu... */
+}
+/* === BG jaringan titik-garis full screen === */
+#bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: .95; /* Atur transparansi animasi */
+}
+/* ======== STYLE UNTUK SEARCH INPUT ======== */
+#searchInput {
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 10px;
+  padding: 6px 12px;
+  margin-right: 8px;
+  outline: none;
+  backdrop-filter: blur(8px) saturate(120%);
+  transition: 0.3s;
+}
+
+#searchInput::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+#searchInput:focus {
+  background: rgba(255, 255, 255, 0.15);
+}
+/* hilangkan ikon default di input type=search (Android/WebKit) */
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration { -webkit-appearance: none; }
+a {
+  text-decoration: none !important;
+}
+.buy {
+  position: relative;
+  margin: 90px -8px -5px; /* biar tombol punya jarak bawah */
+  width: 110%;
+}
+.card:hover .card-img {
+  transform: scale(1.03);
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto; /* biar di tengah */
+  padding: 0 16px;
+}
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+  backdrop-filter: blur(12px);
+}
+
+main {
+  margin-top: var(--topbar-height, 200px);
+}
+/* === Rapikan Username + Centang Biru === */
+.username {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center; /* biar tetap di tengah */
+  gap: 6px; /* jarak antara teks dan icon */
+  font-weight: 700;
+  font-size: 20px; /* ubah sesuai selera */
+}
+
+.verified-icon {
+  width: 22px; /* sesuaikan ukuran icon */
+  height: 22px;
+  vertical-align: middle;
+}
