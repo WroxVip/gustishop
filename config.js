@@ -47,6 +47,15 @@ export const CONFIG = {                                     // ← Ekspor objek 
     buttonRadius: 12                                       // ← Lengkungan tombol (px)
   },
 
+  // WAJIB: pastikan CONFIG ada di window (global)
+window.CONFIG = {
+  site: {
+    slug: "gustishop",
+    username: "@igustimr",
+    tagline: "PRODUCTS ALWAYS READY!!",
+    avatarImage: true,
+    waNumber: "6285xxxxxxx"
+  },
   products: [
   // 1
   {
