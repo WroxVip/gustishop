@@ -1,4 +1,5 @@
-import { CONFIG } from "./config.js"; // ← Ambil CONFIG dari file config.js
+// Pastikan CONFIG dari config.js sudah ada di window
+const CONFIG = window.CONFIG || {}; // ← Ambil CONFIG dari file config.js
 
 /* ============================== UTIL ============================== */
 
