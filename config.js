@@ -9,7 +9,7 @@ window.CONFIG = {                                     // ← Ekspor objek CONFIG
   site: {                                                   // ← Bagian info situs/profil
     slug: 'GUSTISHOP',                                    // ← Teks setelah "lynk.id/" di navbar
     lynkBase: 'https://lynk.id/igustimr',                   // ← Base URL lynk (akan digabung dengan checkoutPath)
-    waNumber: '6281234567890',                              // ← Nomor WA tanpa tanda + (untuk tombol wa)
+    waNumber: '6285191294407',                              // ← Nomor WA tanpa tanda + (untuk tombol wa)
     avatarImage: './assets/images/logobaru.png',               // ← Path PNG avatar lokal (boleh URL full juga)
     avatarText: 'G',                                       // ← Huruf fallback jika avatarImage kosong/error
     username: 'GUSTI',                                 // ← Username besar di bawah avatar
@@ -52,7 +52,7 @@ window.CONFIG = {                                     // ← Ekspor objek CONFIG
   // 1
   {
     id: 'canva-1bln',
-    title: 'Canva Pro 1 Tahun',
+    title: 'Calnva Pro 1 Tahun',
     price: 25000,
     compareAt: 799000,
     soldText: 'Terjual 3,1k+',
