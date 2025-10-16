@@ -275,4 +275,28 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.key === 'Escape') popup.classList.remove('show');
   });
 })();
+/* === MENU: toggle tampil/sembunyi === */
+(function setupMenu(){
+  const menuBtn = document.getElementById('menuBtn');
+  const popup   = document.getElementById('menuPopup');
+
+  if (!menuBtn || !popup) return;
+
+  menuBtn.addEventListener('click', (e)=>{
+    e.stopPropagation();
+    popup.classList.toggle('show');
+  });
+
+  // klik luar -> tutup
+  document.addEventListener('click', (e)=>{
+    if (!e.target.closest('#menuPopup') && !e.target.closest('#menuBtn')) {
+      popup.classList.remove('show');
+    }
+  });
+
+  // Esc -> tutup
+  document.addEventListener('keydown', (e)=>{
+    if (e.key === 'Escape') popup.classList.remove('show');
+  });
+})();
 });
