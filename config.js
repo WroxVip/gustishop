@@ -5,7 +5,7 @@
  * akan membaca nilai di sini, jadi kamu edit dari satu tempat.
  */
 
-export const CONFIG = {                                     // ← Ekspor objek CONFIG agar app.js bisa mengimpor
+window.CONFIG = {                                     // ← Ekspor objek CONFIG agar app.js bisa mengimpor
   site: {                                                   // ← Bagian info situs/profil
     slug: 'GUSTISHOP',                                    // ← Teks setelah "lynk.id/" di navbar
     lynkBase: 'https://lynk.id/igustimr',                   // ← Base URL lynk (akan digabung dengan checkoutPath)
@@ -47,15 +47,7 @@ export const CONFIG = {                                     // ← Ekspor objek 
     buttonRadius: 12                                       // ← Lengkungan tombol (px)
   },
 
-  // WAJIB: pastikan CONFIG ada di window (global)
-window.CONFIG = {
-  site: {
-    slug: "gustishop",
-    username: "@igustimr",
-    tagline: "PRODUCTS ALWAYS READY!!",
-    avatarImage: true,
-    waNumber: "6285xxxxxxx"
-  },
+ 
   products: [
   // 1
   {
@@ -269,5 +261,5 @@ window.CONFIG = {
     image: 'https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/0d/49/74/0d4974de-0ce9-ba1c-a189-4a3378e1a7a2/AppIcon-0-0-1x_U007epad-0-11-0-sRGB-85-220.png/1024x1024bb.png',
     checkoutPath: 'http://lynk.id/igustimr/p72dpz4xde8v/checkout'
   }
-],                                                        // ← Akhir array products
+]                                                        // ← Akhir array products
 };                                                         // ← Akhir objek CONFIG
