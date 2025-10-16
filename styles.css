@@ -853,3 +853,48 @@ main {
 .menu-popup li a:hover{ background:rgba(255,255,255,.08); color:#ff66ff; }
 
 @keyframes fadeIn{ from{opacity:0; transform:translateY(-6px)} to{opacity:1; transform:translateY(0)} }
+/* === Perapihan tombol search & menu di topbar === */
+.topbar{ position:fixed; top:0; left:0; right:0; z-index:100; }
+
+/* container kanan */
+.actions{
+  position:absolute; top:10px; right:12px;
+  height:40px; display:flex; align-items:center; gap:10px;
+  z-index:120;
+}
+
+/* ukuran tombol bulat seragam */
+.actions .icon{
+  width:40px; height:40px; border-radius:12px;
+  display:grid; place-items:center;
+  border:1px solid rgba(255,255,255,.15);
+  background: rgba(0,0,0,.35);
+  color:#fff;
+}
+
+/* pastikan SVG di tengah & proporsional */
+.actions .icon svg{
+  width:22px; height:22px; display:block;
+}
+
+/* input search muncul mengambang di antara dua tombol */
+#searchInput{
+  position:absolute;
+  top:50%; right:52px;                 /* jarak dari tombol menu */
+  transform: translateY(-50%);
+  height:40px; line-height:40px;
+  padding:0 12px;
+  width: min(62vw, 360px);
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.15);
+  background: rgba(0,0,0,.45);
+  color:#fff;
+  backdrop-filter: blur(10px);
+  display:none;                         /* default disembunyikan */
+}
+#searchInput.show{ display:block; }
+
+/* untuk layar kecil banget, rapetin sedikit */
+@media (max-width:360px){
+  #searchInput{ right:48px; width:min(68vw, 300px); }
+}
