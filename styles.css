@@ -62,7 +62,7 @@ body{
   top: 0; left: 0; right: 0;
   z-index: 10;          /* biar di atas elemen lain */
   display: flex; align-items: center; justify-content: space-between;
-  padding: 12px 14px;    /* boleh sesuaikan */
+  padding: 20px 20px;    /* boleh sesuaikan */
   background: rgba(0,0,0,0.5) !important;              /* latar solid */
   border-bottom: 1px solid var(--line);
   box-shadow: 0 2px 10px rgba(10,10,10,10);  /* sedikit bayangan */
